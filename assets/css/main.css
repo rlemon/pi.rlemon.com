@@ -1,0 +1,54 @@
+body {
+    background: #444;
+}
+h2.logo a {
+	color: inherit;
+}
+h2.logo a:hover {
+	text-decoration: none;
+}
+
+footer p {
+	color: #aaa;
+	font-size: 14px;
+}
+.code-input {
+	width: 85%;
+}
+.prettyprint.linenums {
+	padding: 0.5em 1.3em;
+}
+.jumbotron {
+  position: relative;
+  padding-top: 36px;
+  margin-bottom: 72px;
+}
+.jumbotron h1 {
+  margin-bottom: 18px;
+  font-size: 81px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 1;
+  text-align: center;
+}
+.jumbotron p {
+  margin-bottom: 18px;
+  font-weight: 300;
+  text-align: center;
+  margin-left: 5%;
+  margin-right: 5%;
+  font-size: 30px;
+  line-height: 36px;
+}
+.jumbotron .btn-large {
+  font-size: 20px;
+  font-weight: normal;
+  padding: 14px 24px;
+  margin-right: 10px;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+.jumbotron .btn-large small {
+  font-size: 14px;
+}
