@@ -42,7 +42,7 @@ class View {
 	public function raw($enctype, $file) {
 		if( file_exists( $file ) ) {
 			header('Content-type: ' . $enctype);
-			require( $file );
+			echo file_get_contents( $file );
 		} else {
 			header('Content-type: text/plain');
 			echo "File not found";
