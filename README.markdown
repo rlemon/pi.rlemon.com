@@ -1,4 +1,4 @@
-# [#&pi;.rlemon.com](http://pi.rlemon.com/)
+# [&pi;.rlemon.com](http://pi.rlemon.com/)
 
 Simple free image and paste hosting. 
 
