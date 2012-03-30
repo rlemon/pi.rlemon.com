@@ -4,11 +4,7 @@
 	<?php echo $this->error; ?>
 	</pre>
 	<?php endif; ?>
-	<?php if( isset( $this->filehash ) ): ?>
-	<h3>Your image is ready:</h3>
-	<h2><a href="/image/<?php echo $this->filehash; ?>" class="">http://pi.rlemon.com/image/<?php echo $this->filehash; ?></a></h2>
-	<?php endif; ?>
-	<h1>Image Upload <small>V1.0</small></h1>
+	<h1>Upload an image</h1>
 	<form class="form-horizontal" action="/image" method="post" enctype="multipart/form-data">
 		<fieldset>
 			<legend>Select an Image to upload.</legend>

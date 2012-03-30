@@ -39,16 +39,17 @@ class Pi extends Controller {
 		$data = array();
 		if( !empty( $hash ) ) { 
 			if( strtolower($raw) === 'raw' ) {
-				$this->view->raw("text/plain", "./uploads/pastes/$hash");
+				$this->view->raw('text/plain', './uploads/pastes/' . $hash );
 			} else {
 				$paste_content = $this->model->get_paste($hash);
 				$data['paste_content'] = $paste_content;
+				$data['scripts'] = array('/assets/js/util.js', '/assets/js/paste.js');
 				$this->view->load('pi/view-paste', $data);
 			}
 			return;
 		} else { // no hash exists, display the upload form.
 			if( isset( $_POST['upload-paste'] ) ) {
-				$data['filehash'] = $this->model->create_paste( stripslashes($_POST['code']) );
+				redirect('paste/' . $this->model->create_paste( stripslashes($_POST['code']) ) );
 			}
 		}
 		$this->view->load('pi/upload-paste', $data);
@@ -58,7 +59,18 @@ class Pi extends Controller {
 		include( 'lib/libraries/upload.class.php' );
 		$data = array();
 		if( !empty( $hash ) ) { 
-			$this->view->raw("image/png", "./uploads/images/$hash");
+			$mimes = array('png' => 'png', 'jpg' => 'jpeg', 'gif' => 'gif');
+			$ext = pathinfo($hash, PATHINFO_EXTENSION);
+			$mime = '';
+			foreach( $mimes as $k => $v ) {
+				if( $ext == $k || $ext == $v ) {
+					$mime = 'image/' . $v;
+				}
+			}
+			if( empty( $mime ) ) {
+				throw new Exception('Unexpected error, unsupported MIME type', 500);
+			}
+			$this->view->raw($mime, './uploads/images/' . $hash );
 			return;
 		} else { // no hash exists, display the upload form.
 			if( isset( $_POST['upload-image'] ) ) {
@@ -71,7 +83,7 @@ class Pi extends Controller {
 						$handle->allowed = array('image/png','image/jpeg','image/gif');
 						$ihandle->process('./uploads/images/');
 						if( $ihandle->processed ) {
-							$data['filehash'] = $ihandle->file_dst_name;
+							redirect('image/' . $ihandle->file_dst_name);
 						} else {
 							$data['error'] = $ihandle->error;
 						}

@@ -1,9 +1,5 @@
 <div class="well">
-	<?php if( isset( $this->filehash ) ): ?>
-	<h3>Your paste is ready:</h3>
-	<h2><a href="/paste/<?php echo $this->filehash; ?>" class="">http://pi.rlemon.com/paste/<?php echo $this->filehash; ?></a></h2>
-	<?php endif; ?>
-	<h1>Paste Upload</h1>
+	<h1>Paste some code</h1>
 	<form class="form-horizontal" action="/paste" method="post">
 		<fieldset>
 			<legend>Paste your snippet in the area below</legend>

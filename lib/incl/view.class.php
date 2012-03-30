@@ -33,10 +33,11 @@ class View {
 				$this->{$k} = $v;
 			}
 		}
-		
-		require( "lib/views/header.php" );
-		require( "lib/views/$page.php" );
-		require( "lib/views/footer.php" );
+		$this->pastes_count = count(scandir('uploads/pastes/'));
+		$this->images_count = count(scandir('uploads/images/'));
+		require( 'lib/views/header.php' );
+		require( 'lib/views/' . $page . '.php' );
+		require( 'lib/views/footer.php' );
 	}
 	
 	public function raw($enctype, $file) {
@@ -44,8 +45,7 @@ class View {
 			header('Content-type: ' . $enctype);
 			echo file_get_contents( $file );
 		} else {
-			header('Content-type: text/plain');
-			echo "File not found";
+			throw new Exception('The requested file could not be found on the server.', 404);
 		}
 	}
 }

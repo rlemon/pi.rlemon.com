@@ -35,15 +35,19 @@ class Pi_Model extends Model {
 		return $res ? $fileInfo[1] : null;
 	}
 	
-	public function get_paste($hash) {
-		$filename = "./uploads/pastes/$hash";
-		if( file_exists( $filename ) ) {
-			return file_get_contents( $filename );
-		}
-		return "File not found";
+	public function create_image($image) {
+		
 	}
 	
-	public function create_image($image) {
+	public function get_paste($hash) {
+		$filename = './uploads/pastes/' . $hash;
+		if( !file_exists( $filename ) ) {
+			throw new Exception('The requested file could not be found on the server.', 404);
+		}
+		return file_get_contents( $filename );
+	}
+	
+	public function get_image($hash) {
 		
 	}
 	
