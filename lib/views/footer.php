@@ -5,7 +5,6 @@
 </footer>
 </div>
 
-<script type="text/javascript" src="/assets/google-code-prettify/prettify.js"></script>
 <?php if( isset( $this->scripts ) ): ?>
 <?php foreach($this->scripts as $script): ?>
 <script type="text/javascript" src="<?php echo $script; ?>"></script>

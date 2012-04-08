@@ -43,7 +43,8 @@ class Pi extends Controller {
 			} else {
 				$paste_content = $this->model->get_paste($hash);
 				$data['paste_content'] = $paste_content;
-				$data['scripts'] = array('/assets/js/util.js', '/assets/js/paste.js');
+				$data['styles'] = array('/assets/google-code-prettify/prettify.css');
+				$data['scripts'] = array('/assets/google-code-prettify/prettify.js', '/assets/js/util.js', '/assets/js/paste.js');
 				$this->view->load('pi/view-paste', $data);
 			}
 			return;
@@ -56,7 +57,6 @@ class Pi extends Controller {
 	}
 	
 	public function image($hash = null) {
-		include( 'lib/libraries/upload.class.php' );
 		$data = array();
 		if( !empty( $hash ) ) { 
 			$mimes = array('png' => 'png', 'jpg' => 'jpeg', 'gif' => 'gif');
@@ -72,25 +72,31 @@ class Pi extends Controller {
 			}
 			$this->view->raw($mime, './uploads/images/' . $hash );
 			return;
-		} else { // no hash exists, display the upload form.
-			if( isset( $_POST['upload-image'] ) ) {
-				if( isset( $_FILES['image'] ) ) {
-					$ihandle = new upload($_FILES['image']);
-					if( $ihandle->uploaded ) {
-						$ihandle->file_new_name_body = md5( $_FILES['image']['name'] );
-						$ihandle->file_dst_name_ext = '';
-						$ihandle->file_force_extension = true;
-						$handle->allowed = array('image/png','image/jpeg','image/gif');
-						$ihandle->process('./uploads/images/');
-						if( $ihandle->processed ) {
-							redirect('image/' . $ihandle->file_dst_name);
-						} else {
-							$data['error'] = $ihandle->error;
-						}
-					}
-				}
-			}
 		}
+		if( isset( $_POST['upload-image'] ) ) {
+			if( isset( $_FILES['image'] ) ) {
+				$accepted_types = array('image/jpeg' => 'jpeg','image/gif' => 'gif','image/png' => 'png');
+				if( $_FILES['image']['size'] > 2048*1024 ) {
+					die( json_encode( array('error' => 'requested file is too large ' . $_FILES['image']['size']) ) );
+				}
+				if( !array_key_exists( $_FILES['image']['type'], $accepted_types ) ) {
+					die( json_encode( array('error' => 'invalid mime type') ) );
+				}
+				$target = 'uploads/images/' . md5( $_FILES['image']['name'] ) . '.' . $accepted_types[$_FILES['image']['type']];
+				if( file_exists( $target ) ) {
+					die( json_encode( array('error' => 'stupid server error I didnt handle properly') ) );
+				}
+				if(!move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
+					echo json_encode(array('error' => 'could not save the image to the server'));
+				} else {
+					echo json_encode(array('imgsrc' => $target));
+				}
+			} else {
+				
+			}
+			return;
+		}
+		$data['scripts'] = array('/assets/js/util.js', '/assets/js/iupload.js');
 		$this->view->load('pi/upload-image', $data);
 	}
 	

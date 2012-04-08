@@ -5,7 +5,7 @@
 	</pre>
 	<?php endif; ?>
 	<h1>Upload an image</h1>
-	<form class="form-horizontal" action="/image" method="post" enctype="multipart/form-data">
+	<form class="form-horizontal" action="/image" method="post" name="image-upload" enctype="multipart/form-data">
 		<fieldset>
 			<legend>Select an Image to upload.</legend>
 			<div class="control-group">
@@ -21,4 +21,5 @@
 			</div>
 		</fieldset>
 	</form>
+	<div class="well" hidden="hidden" id="upload-results"></div>
 </div>
